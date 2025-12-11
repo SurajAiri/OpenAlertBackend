@@ -26,6 +26,10 @@ const DeviceService = {
     return await DeviceModel.findOne({ userId });
   },
 
+  async getAllByUserId(userId) {
+    return await DeviceModel.find({ userId });
+  },
+
   //   async getAll(offset = 0, limit = 10, userId) {
   //     const query = userId ? { userId } : {};
   //     return await DeviceModel.find(query).skip(offset).limit(limit);

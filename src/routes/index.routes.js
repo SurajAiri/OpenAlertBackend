@@ -17,7 +17,7 @@ router.use("/auth", authRouter);
 router.use("/webhook", webhookRouter);
 
 // restrict routes below to authenticated users only
-router.use(restrictToUser("user"));
+// router.use(restrictToUser("user"));
 router.use("/action", actionRouter);
 router.use("/device", deviceRouter);
 

@@ -7,10 +7,9 @@ const jwtService = {
     }
     const payload = {
       id: user._id,
-      // email: user.email, // remove email as it's sensitive information
       userType: "user",
     };
-    console.log("Generating JWT with payload:", process.env.JWT_EXPIRATION);
+    // console.log("Generating JWT with payload:", process.env.JWT_EXPIRATION);
     return jwt.sign(payload, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRATION,
     });
