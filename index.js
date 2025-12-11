@@ -37,21 +37,14 @@ mongoose
 // cron job schedule to call health check every 12 minutes
 import cron from "node-cron";
 import axios from "axios";
-if (process.env.ENVIRONMENT === "production") {
-  cron.schedule("*/12 * * * *", async () => {
-    try {
-      const response = await axios.get(
-        `http://localhost:${PORT}/api/v1/health`
-      );
-      console.log(
-        `Health Check at ${new Date().toISOString()}:`,
-        response.data
-      );
-    } catch (error) {
-      console.error(
-        `Health Check Failed at ${new Date().toISOString()}:`,
-        error.message
-      );
-    }
-  });
-}
+cron.schedule("*/12 * * * *", async () => {
+  try {
+    const response = await axios.get(process.env.HEALTH_CHECK_URL);
+    console.log(`Health Check at ${new Date().toISOString()}:`, response.data);
+  } catch (error) {
+    console.error(
+      `Health Check Failed at ${new Date().toISOString()}:`,
+      error.message
+    );
+  }
+});
