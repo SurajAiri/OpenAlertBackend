@@ -28,11 +28,11 @@ const WebhookController = {
       }
       const fcmToken = device.fcmToken;
 
-      sendPushNotification(fcmToken, message);
-      res.status(200).send({ success: true, message: "Notification sent" });
+      await sendPushNotification(fcmToken, message);
+      //   res.status(200).send({ success: true, message: "Notification sent" });
 
       return res.sendResponse(200, {
-        message: "Webhook received successfully",
+        message: "Notification sent successfully",
       });
     } catch (error) {
       console.error("Webhook error:", error);
