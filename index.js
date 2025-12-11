@@ -33,3 +33,19 @@ mongoose
   .catch((err) => {
     console.error("Failed to connect to MongoDB", err);
   });
+
+// cron job schedule to call health check every 12 minutes
+import cron from "node-cron";
+import axios from "axios";
+
+cron.schedule("*/12 * * * *", async () => {
+  try {
+    const response = await axios.get(`http://localhost:${PORT}/api/v1/health`);
+    console.log(`Health Check at ${new Date().toISOString()}:`, response.data);
+  } catch (error) {
+    console.error(
+      `Health Check Failed at ${new Date().toISOString()}:`,
+      error.message
+    );
+  }
+});
