@@ -35,11 +35,11 @@ const DeviceController = {
 
   async getUserDevices(req, res) {
     const { id: userId } = req.user;
-    console.log("Fetching devices for userId:", userId);
+    // console.log("Fetching devices for userId:", userId);
 
     try {
       const devices = await DeviceService.getAllByUserId(userId);
-      console.log("Retrieved devices:", devices);
+      // console.log("Retrieved devices:", devices);
       if (!devices || devices.length === 0) {
         return res.sendResponse(404, "No devices found for user");
       }
