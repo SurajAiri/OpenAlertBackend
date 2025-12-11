@@ -1,39 +1,19 @@
-import admin from "../config/firebase_config.js";
+import sendPushNotification from "../services/fcm_notification.service.js";
+import DeviceService from "../services/device.service.js";
+async function sendNotification(req, res) {
+  const message = req.body;
 
-const sendNotificationService = async (fcmToken, message) => {
   try {
-    const payload = {
-      notification: {
-        title: message.title,
-        body: message.body,
-      },
-      android: {
-        priority: "high",
-      },
-      apns: {
-        headers: {
-          "apns-priority": "10",
-        },
-        payload: {
-          aps: {
-            contentAvailable: true,
-          },
-        },
-      },
-      token: fcmToken,
-    };
+    const { id: userId } = req.user;
+    const device = await DeviceService.getByUserId(userId);
+    if (!device || !device.fcmToken) {
+      return res
+        .status(404)
+        .send({ success: false, message: "FCM token not found for user" });
+    }
+    const fcmToken = device.fcmToken;
 
-    const response = await admin.messaging().send(payload);
-    console.log("Successfully sent message:", response);
-  } catch (error) {
-    console.error("Error sending message:", error);
-  }
-};
-
-function sendNotification(req, res) {
-  const { fcmToken, message } = req.body;
-  try {
-    sendNotificationService(fcmToken, message);
+    sendPushNotification(fcmToken, message);
     res.status(200).send({ success: true, message: "Notification sent" });
   } catch (error) {
     res
