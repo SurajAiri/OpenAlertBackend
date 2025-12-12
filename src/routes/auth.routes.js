@@ -8,4 +8,6 @@ const router = express.Router();
 router.post("/email/register", AuthController.emailRegister);
 router.post("/email/login", AuthController.emailLogin);
 
+router.post("/google/callback", AuthController.googleAuthCallback);
+
 export default router;

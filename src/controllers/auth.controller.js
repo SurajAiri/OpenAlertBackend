@@ -84,6 +84,11 @@ const UserAuthController = {
     }
   },
 
+  async googleAuthCallback(req, res) {
+    console.log("Google auth callback hit: ", req.body);
+    return res.sendResponse(200, "Google auth callback hit");
+  },
+
   async googleAuth(req, res) {
     const { idToken } = req.body;
 
